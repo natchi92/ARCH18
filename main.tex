@@ -1,0 +1,120 @@
+% easychair.tex,v 3.4 2016/10/19
+\documentclass[EPiC]{easychair}
+
+\usepackage{doc}
+\usepackage{tikz}
+\usepackage{subfigure}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{framed}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{hyperref}
+\usepackage[defaultlines=4,all]{nowidow}
+\usepackage{enumitem} % GF 2017-03-28
+\usepackage{tablefootnote}
+
+
+\newlength{\plotwidth}
+\setlength{\plotwidth}{0.45\columnwidth}
+\newlength{\plotwidthShort}
+\setlength{\plotwidthShort}{0.4\columnwidth}
+
+
+%% - Utils
+\newcommand{\todo}[1]{
+  \begin{framed}
+    \noindent{\bf TODO: }
+    #1
+  \end{framed}
+}
+\newcommand{\remark}[1]{
+  \begin{framed}
+    \noindent{\bf Remark: }
+    #1
+  \end{framed}
+}
+%\makeindex
+
+%% Front Matter
+%%
+% Regular title as in the article class.
+%
+\title{ARCH-COMP18 Category Report:\\ Stochastic Modelling}
+
+% Authors are joined by \and. Their affiliations are given by \inst, which indexes
+% into the list defined using \institute
+% Author order: first author is group leader, other authors are added alphabetically
+\author{ a
+       \inst{1}
+%\and
+ %  test \inst{2}
+}
+
+% Institutes for affiliations are also joined by \and,
+\institute{ a 
+  \email{aa@email.com}}
+
+%  \authorrunning{} has to be set for the shorter version of the authors' names;
+% otherwise a warning will be rendered in the running heads. When processed by
+% EasyChair, this command is mandatory: a document without \authorrunning
+% will be rejected by EasyChair
+
+\authorrunning{}
+
+% \titlerunning{} has to be set to either the main title or its shorter
+% version for the running heads. When processed by
+% EasyChair, this command is mandatory: a document without \titlerunning
+% will be rejected by EasyChair
+\titlerunning{ARCH-COMP18 Stochastic models}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This report presents the results of a friendly competition for formal verification of continuous and hybrid systems with linear continuous dynamics. The friendly competition took place as part of the workshop \underline{A}pplied Ve\underline{r}ification for \underline{C}ontinuous and \underline{H}ybrid Systems (ARCH) in 2018. 
+\end{abstract}
+
+%------------------------------------------------------------------------------
+\section{Introduction}
+\label{sect:introduction}
+
+\begin{framed}
+\paragraph{Disclaimer} The presented report of the ARCH friendly competition for \textit{stochastic modelling group} which aims at providing a landscape ....
+\end{framed}
+
+This report summarizes results obtained in the 2018 friendly competition of the ARCH workshop\footnote{Workshop on \underline{A}pplied Ve\underline{r}ification for \underline{C}ontinuous and \underline{H}ybrid Systems (ARCH), \href{http://cps-vo.org/group/ARCH}{cps-vo.org/group/ARCH}} for 
+ 
+
+The goal of the friendly competition is not to rank the results, but rather to present the landscape of existing solutions in a breadth that is not possible with scientific publications in classical venues. Such publications would typically require the presentation of novel techniques, while this report showcases the current state-of-the-art tools. For all results reported by each participant, we have run an independent repeatability evaluation. 
+
+
+%------------------------------------------------------------------------------
+\section{Benchmarks}
+\label{sec:benchmarks}
+
+\paragraph{Types of Inputs} .
+
+\paragraph{Different Paths to Success} When tools use a fundamentally different way of solving a benchmark problem, we add further explanations. 
+
+
+
+
+%------------------------------------------------------------------------------
+\section{Conclusion and Outlook}
+\label{sect:conclusion}
+
+This report presents the results on a first friendly competition for the formal verification of c
+
+
+%------------------------------------------------------------------------------
+\section{Acknowledgments}
+\label{sec:acks}
+
+\bibliographystyle{plain}
+\bibliography{}
+
+\end{document}
+
+
+
