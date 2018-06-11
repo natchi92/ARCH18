@@ -12,15 +12,20 @@
 \usepackage[defaultlines=4,all]{nowidow}
 \usepackage{enumitem} % GF 2017-03-28
 \usepackage{tablefootnote}
+\usepackage{cleveref}
+\usepackage{xcolor}
+\usepackage{floatrow}
+\usepackage{tikz}
+\usepackage{pbox}
+\usepackage{pgfplots}
 
-
+%% - Utils
 \newlength{\plotwidth}
 \setlength{\plotwidth}{0.45\columnwidth}
 \newlength{\plotwidthShort}
 \setlength{\plotwidthShort}{0.4\columnwidth}
 
-
-%% - Utils
+\input{commands}
 \newcommand{\todo}[1]{
   \begin{framed}
     \noindent{\bf TODO: }
@@ -44,15 +49,23 @@
 % Authors are joined by \and. Their affiliations are given by \inst, which indexes
 % into the list defined using \institute
 % Author order: first author is group leader, other authors are added alphabetically
-\author{ a
-       \inst{1}
-%\and
- %  test \inst{2}
-}
+\author{Alessandro Abate \inst{1}
+\and Henk Blom \inst{2}
+\and Nathalie Cauchi \inst{1}
+\and Sofie Haesaert \inst{3}
+\and Arnd Hartmanns \inst{4}
+\and Meeko Oisho \inst{5}
+\and Soudjani Sadegh \inst{6}
+\and  Vignesh Sivaramakrishnan  \inst{5}
+\and  Cristian Vasile \inst{7}
+ \and Abraham Vinod  \inst{5}
+ }
 
 % Institutes for affiliations are also joined by \and,
-\institute{ a 
-  \email{aa@email.com}}
+\institute{ University of Oxford,
+Department of Computer Science,
+Oxford, UK
+  \email{name.surname@cs.ox.ac.uk}}
 
 %  \authorrunning{} has to be set for the shorter version of the authors' names;
 % otherwise a warning will be rendered in the running heads. When processed by
@@ -70,6 +83,7 @@
 \begin{document}
 
 \maketitle
+\todo{Add all affiliations}
 
 \begin{abstract}
 This report presents the results of a friendly competition for formal verification of continuous and hybrid systems with linear continuous dynamics. The friendly competition took place as part of the workshop \underline{A}pplied Ve\underline{r}ification for \underline{C}ontinuous and \underline{H}ybrid Systems (ARCH) in 2018. 
@@ -83,36 +97,129 @@ This report presents the results of a friendly competition for formal verificati
 \paragraph{Disclaimer} The presented report of the ARCH friendly competition for \textit{stochastic modelling group} which aims at providing a landscape ....
 \end{framed}
 
-This report summarizes results obtained in the 2018 friendly competition of the ARCH workshop\footnote{Workshop on \underline{A}pplied Ve\underline{r}ification for \underline{C}ontinuous and \underline{H}ybrid Systems (ARCH), \href{http://cps-vo.org/group/ARCH}{cps-vo.org/group/ARCH}} for 
+This report summarizes results obtained in the 2018 friendly competition of the ARCH workshop\footnote{Workshop on \underline{A}pplied Ve\underline{r}ification for \underline{C}ontinuous and \underline{H}ybrid Systems (ARCH), \href{http://cps-vo.org/group/ARCH}{cps-vo.org/group/ARCH}} for\\ 
+ 
  
 
 The goal of the friendly competition is not to rank the results, but rather to present the landscape of existing solutions in a breadth that is not possible with scientific publications in classical venues. Such publications would typically require the presentation of novel techniques, while this report showcases the current state-of-the-art tools. For all results reported by each participant, we have run an independent repeatability evaluation. 
 
+\hrmkNMC{To complete}
 
 %------------------------------------------------------------------------------
 \section{Benchmarks}
 \label{sec:benchmarks}
 
-\paragraph{Types of Inputs} .
+We introduce a new category for the 2018 edition and with it a new set of benchmarks: an anesthesia delivery system, building automation system, a heated tank, a lawn mover and a mars rover. Each benchmark is characterised with special features which we delineate first. Next, we discuss each benchmark, the different problems to be solved together with specifications of interest, and different paths to successfully verifying a benchmark. Afterwards, the verification of each benchmark is presented in detail. \\
 
-\paragraph{Different Paths to Success} When tools use a fundamentally different way of solving a benchmark problem, we add further explanations. 
+\paragraph{Special features} We briefly list the key features of each benchmark:
+\begin{itemize}
+	\item \textit{Anesthesia delivery system benchmark}: 
+	\item \textit{Building automation benchmark}: this benchmark is based on a library of models describing different components within a heating system. We focus on two instances of possible benchmarks which describe discrete-time linear systems with varying numbers of continuous state variables. The benchmark focuses on safety properties.
+	\item \textit{Heated tank benchmark}: 
+    \item \textit{Lawn mower benchmark}:
+    \item \textit{Mars rover benchmark}:
+\end{itemize}
+
+\todo{Include brief description or special features of the benchmark}
+
+%%% Benchmark descriptions together with results
+\input{Anesthesia.tex}
+\newpage
+
+\input{BAS.tex}
+\newpage
+
+\input{HeatedTank.tex}
+\newpage
+
+\input{LawnMower.tex}
+\newpage
+
+\input{MarsRover.tex}
+
+\todo{Inclusion of full benchmark descriptions and results of case-studies}
+
+%------------------------------------------------------------------------------
+\section{Participating Tools}
+\label{sect:tools}
+
+The tools  participating in the category \textit{Stochastic Modelling} are introduced subsequently in alphabetical order.
 
 
+\paragraph{FAUST$^2$}
+The tool \textit{Formal Abstractions of Uncountable-STate STochastic
+processes} (FAUST$^2$) ~\cite{soudjani2015faust} generates formal abstractions of discrete-time Markov processes (dtMP) defined over continuous state spaces. The dtMP model is abstracted into a finite-state Markov chain or a Markov decision process. The abstract model is formally put in relationship with the concrete dtMP via a user-defined maximum threshold on the approximation error introduced by the abstraction procedure. FAUST 2 allows exporting the abstract model to well-known probabilistic model checkers,such as PRISM or MRMC. Alternatively, it can handle internally the com-
+putation of PCTL properties (e.g. safety or reach-avoid) over the abstract model, and refine the outcomes over the concrete dtMP via a quantified error that depends on the abstraction procedure and the given formula. The toolbox is available at \url{https://sourceforge.net/projects/faust2/}\\
+
+\paragraph{Modest}
+
+\paragraph{SReach Tools}
 
 
+\todo{ Fill the appropriate description + title of tool or framework employed}
+%------------------------------------------------------------------------------
+\section{Results}
+\label{sect:results}
+
+We present the results obtained for each case studies using the tools highlighted in Sec.\ref{sect:tools}.
+
+%%%%% Results for Anesthesia model
+\subsection{Anesthesia benchmark}
+\newpage
+
+\subsection{Building Automation System benchmark}
+\subsubsection{CS1BAS: Results}
+The results obtained using the individual tools are presented hereunder. 
+\begin{figure}[htb]
+\centering
+\resizebox{0.6\columnwidth}{!}{\input{figures/PRA.tikz}
+\caption{FAUST$^2$: Partition of the safe set for model $M_s$, 
+		along with optimal safety probability for each partition set}
+\label{fig:bas:faust}}
+\end{figure}
+
+\todo{add results of other tools and include computational times, description}
+
+\subsubsection{CS2BAS: Results}
+For $\mathbf{M}_c$ and the given specification  aim at synthesising a policy maximising the safety probability $p$. This synthesis goal can be computationally hard due to the  number of continuous variables making up $\mathbf{M}_c$. 
+\todo{Say how each tool tackles this}
+
+\paragraph{Results using FAUST$^2$}
+In order to make use of the FAUST$^2$, we perform policy synthesis via abstractions and $(\varepsilon,\delta)$ simulation relations~\cite{peva}. The $(\varepsilon,\delta)$ pair providing the optimal trade off is obtained using an abstract model with 1 continuous variable and corresponds to ($0.2854,$ $ 10^{-2}$). 
+Next, we use FAUST$^2$ to perform a grid-based computation of the safety probability on the abstract model and obtain a model of size 14893 with an overall accuracy of $0.005$. 
+Over this approximation we synthesise the optimal policy for the abstract model which results in a safety probability of $p'= 0.9257$.	We refine the obtained policy~\cite{peva} such that it can be applied to the original model~\eqref{eqn:Mc}. The overall process results in $\Phi$ being satisfied with a safety probability of $p = p'-\eta - N\delta = 0.7657$, where $\eta$ is the abstraction error introduced by FAUST$^2$.
+
+\todo{add results of other tools and include computational times, description}
+
+\newpage
+
+
+\subsection{Heated Tank benchmark}
+\newpage
+
+\subsection{Lawn Mower benchmark}
+\newpage
+
+\subsection{Mars Rover benchmark}
 %------------------------------------------------------------------------------
 \section{Conclusion and Outlook}
 \label{sect:conclusion}
 
-This report presents the results on a first friendly competition for the formal verification of c
+This report presents the results on a first friendly competition for the formal verification of stochastic models as part of the ARCH'18 workshop. The reports of other categories can be found in the proceedings and on the ARCH website:  \href{http://cps-vo.org/group/ARCH}{cps-vo.org/group/ARCH}.  
 
+\todo{
+\begin{itemize}
+\item General observations and difficulties encountered 
+\item Future goals and desired outcomes
+\end{itemize}
+}
 
 %------------------------------------------------------------------------------
 \section{Acknowledgments}
 \label{sec:acks}
 
 \bibliographystyle{plain}
-\bibliography{}
+\bibliography{bib/Cauchibib.bib}
 
 \end{document}
 

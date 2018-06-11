@@ -1,0 +1,99 @@
+% ---------------- Commands --------------------
+
+\definecolor{lightblue}{RGB}{210,210,225}
+\definecolor{lightred}{RGB}{235,220,220}
+\definecolor{lightgreen}{RGB}{215,245,215}
+\definecolor{lightyellow}{RGB}{225,222,200}
+\definecolor{lightpurple}{RGB}{225,210,225}
+\definecolor{darkblue}{RGB}{0,0,128}
+\definecolor{darkred}{RGB}{128,0,0}
+\definecolor{darkerred}{RGB}{64,0,0}
+\definecolor{darkgreen}{RGB}{0,108,0}
+\definecolor{darkyellow}{RGB}{25,22,0}
+\definecolor{darkpurple}{RGB}{128,0,128}
+
+\newcommand{\cyan}[1]{{\color{cyan}#1}}
+\newcommand{\blue}[1]{{\color{blue}#1}}
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+% Abbreviated form for internal references (cleveref package)
+\Crefname{section}{Sec.}{Secs.}
+\crefname{section}{section}{sections}
+\Crefname{subsection}{Sec.}{Secs.}
+\crefname{subsection}{section}{sections}
+\Crefname{equation}{Eq.}{Eqs.}
+\crefname{equation}{eq.}{eqs.}
+\Crefname{algorithm}{Alg.}{Algs.}
+\crefname{algorithm}{algorithm}{algorithms}
+\Crefname{table}{Tab.}{Tabs.}
+\crefname{table}{table}{tables}
+\Crefname{figure}{Fig.}{Figs.}
+\crefname{figure}{figure}{figures}
+
+% Make \paragraph{} bold font
+\makeatletter
+\renewcommand{\paragraph}{\@startsection{paragraph}{4}{0pt}%
+  {.8ex plus 0.2ex minus 0.2ex}%
+  {-0.5em}%
+  {\bfseries}}
+\makeatother
+
+\newcommand{\dummyfig}[3]{\textcolor{Gray!30!#3!50}{\rule{#1}{#2}}}
+\newcommand{\colorpar}[3]{\colorbox{#1}{\parbox{#2}{#3}}}
+\newcommand{\marginremark}[4]{
+  \marginpar{\colorpar{#2}{\linewidth}{\color{#1}\tiny{[#3] #4}}}}
+\newcommand{\inlineremark}[4]{
+  \par\noindent\colorpar{#2}{0.98\linewidth}{\color{#1}\tiny{[#3] #4}}\par}
+\makeatletter
+\def\THICKhrulefill{\leavevmode \leaders \hrule height 5pt\hfill \kern \z@}
+\makeatother
+\newcommand{\highlightedremark}[4]{%
+  \begin{center}\fcolorbox{#1}{#2}{%
+  \begin{minipage}{.98\linewidth}\color{#1}%
+  \textbf{\THICKhrulefill[ #3 ]\THICKhrulefill}%
+  \par\noindent#4\end{minipage}}\end{center}%
+}
+
+\newcommand{\TODO}[1]{\highlightedremark{darkred}{lightred}{TODO}{#1}}
+
+% Remarks
+\iftrue
+  \newcommand{\rmkNMC}[1]{\marginremark{red}{red!25}{NMC}{#1}}
+  \newcommand{\rmkAB}[1]{\marginremark{darkgreen}{Aquamarine!15}{AB}{#1}}
+  \newcommand{\rmkAH}[1]{\marginremark{darkgreen}{Aquamarine!15}{AH}{#1}}
+  \newcommand{\rmkVS}[1]{\marginremark{darkgreen}{Aquamarine!15}{VS}{#1}}
+  \newcommand{\rmkHB}[1]{\marginremark{darkblue}{lightblue}{HB}{#1}}
+  \newcommand{\rmkSS}[1]{\marginremark{darkbyellow}{lightyellow}{SS}{#1}}
+  \newcommand{\rmkAA} [1]{\marginremark{darkpurple}{lightpurple}{AA}{#1}}
+  \newcommand{\rmkSH} [1]{\marginremark{darkpurple}{lightpurple}{SH}{#1}}
+  \newcommand{\rmkCV} [1]{\marginremark{darkpurple}{lightpurple}{CV}{#1}}
+\else
+  \newcommand{\rmkNMC}[1]{}
+  \newcommand{\rmkAB}[1]{}
+  \newcommand{\rmkAH}[1]{}
+  \newcommand{\rmkVS}[1]{}
+  \newcommand{\rmkHB}[1]{}
+  \newcommand{\rmkSS}[1]{}
+  \newcommand{\rmkAA}[1]{}
+  \newcommand{\rmkSH}[1]{}
+  \newcommand{\rmkCV}[1]{}
+\fi
+
+% Highlighted remarks
+\newcommand{\hrmkNMC}[1]{\highlightedremark{darkred}{lightred}{NMC}{#1}}
+\newcommand{\hrmkAB}[1]{\highlightedremark{darkgreen}{lightyellow}{AB}{#1}}
+\newcommand{\hrmkAH}[1]{\highlightedremark{darkblue}{lightblue}{AH}{#1}}
+\newcommand{\hrmkVS}[1]{\highlightedremark{darkbyellow}{lightyellow}{VS}{#1}}
+\newcommand{\hrmkHB}[1]{\highlightedremark{darkbyellow}{lightyellow}{HB}{#1}}
+\newcommand{\hrmkSS}[1]{\highlightedremark{darkbyellow}{lightyellow}{SS}{#1}}
+\newcommand{\hrmkAA}[1] {\highlightedremark{darkpurple}{lightpurple}{AA}{#1}}
+\newcommand{\hrmkSH}[1] {\highlightedremark{darkpurple}{lightpurple}{SH}{#1}}
+\newcommand{\hrmkCV}[1]{\highlightedremark{darkbyellow}{lightyellow}{CV}{#1}}
+
+\newcommand{\hey}[1]{\textbf{\color{Red}\sffamily\larger @{#1}:}\xspace}
+\newcommand{\tocite}{%
+  \marginremark{BrickRed}{white}{$\blacksquare$}{\textbf{citation~needed}\hfill}%
+  \texttt{\color{Red}$\backslash$REF}\xspace}
+
