@@ -55,17 +55,23 @@
 \and Sofie Haesaert \inst{3}
 \and Arnd Hartmanns \inst{4}
 \and Meeko Oisho \inst{5}
-\and Soudjani Sadegh \inst{6}
-\and  Vignesh Sivaramakrishnan  \inst{5}
-\and  Cristian Vasile \inst{7}
+\and Vignesh Sivaramakrishnan  \inst{5}
+\and Sadegh Soudjani \inst{6}
+\and Cristian-Ioan Vasile \inst{7}
  \and Abraham Vinod  \inst{5}
  }
 
 % Institutes for affiliations are also joined by \and,
-\institute{ University of Oxford,
-Department of Computer Science,
-Oxford, UK
-  \email{name.surname@cs.ox.ac.uk}}
+\institute{University of Oxford, Department of Computer Science, Oxford, UK
+  \email{name.surname@cs.ox.ac.uk}
+  \and
+  \and
+  \and
+  \and
+  \and
+  School of Computing, Newcastle University, UK, \email{Sadegh.Soudjani@ncl.ac.uk}
+  \and
+  }
 
 %  \authorrunning{} has to be set for the shorter version of the authors' names;
 % otherwise a warning will be rendered in the running heads. When processed by
@@ -116,7 +122,9 @@ We introduce a new category for the 2018 edition and with it a new set of benchm
 	\item \textit{Anesthesia delivery system benchmark}: 
 	\item \textit{Building automation benchmark}: this benchmark is based on a library of models describing different components within a heating system. We focus on two instances of possible benchmarks which describe discrete-time linear systems with varying numbers of continuous state variables. The benchmark focuses on safety properties.
 	\item \textit{Heated tank benchmark}: 
-    \item \textit{Lawn mower benchmark}:
+    \item \textit{Lawn mower benchmark}: this benchmark focuses on controller synthesis and verification for a driverless industrial size lawn mower. While a number of diverse schemes can be used for synthesizing a controller, we use one that has a simple switching mechanism for guiding the mower between way-points in the field. We describe continuous-time dynamics of the mower together with the controller. The closed-loop model fits into the framework of continuous-time hybrid systems, which has 6 continuous states (with possibility of extending to 8), two discrete modes, and nonlinear drift functions in each mode.
+Although statistical techniques such as multilevel Monte Carlo method \cite{MLMC_SRN_17} can be used to verify properties of the \emph{continuous-time} dynamics,
+ We transform the model into \emph{discrete-time polynomial} dynamics and use barrier certificates \textcolor{blue}{\cite{}} for the verification task.  
     \item \textit{Mars rover benchmark}:
 \end{itemize}
 
@@ -137,19 +145,20 @@ We introduce a new category for the 2018 edition and with it a new set of benchm
 
 \input{MarsRover.tex}
 
-\todo{Inclusion of full benchmark descriptions and results of case-studies}
+\todo{Inclusion of full benchmark descriptions}
 
 %------------------------------------------------------------------------------
-\section{Participating Tools}
+\section{Participating Tools \& Frameworks}
 \label{sect:tools}
 
-The tools  participating in the category \textit{Stochastic Modelling} are introduced subsequently in alphabetical order.
+The tools and frameworks used in the category \textit{Stochastic Modelling} are introduced subsequently in alphabetical order.
 
+\paragraph{Barrier Certificates}
+The paper \cite{} provides a systematic approach of using barrier certificates for algorithmic verification of stochastic systems against a wide class of temporal properties. It provides a method for computing lower bounds on the probability that a discrete-time stochastic system satisfies given \emph{safe LTL specification} over a \emph{finite} time horizon. This is achieved by first decomposing specification into a sequence of simpler verification tasks based on the structure of the automaton associated with the negation of the specification. Then it uses barrier certificates for computing probability bounds for simpler verification tasks, which are further combined to get a lower bound on the probability of satisfying the original specification. Computation of barrier certificates can be performed for polynomial dynamics using sum-of-squares optimizations. 
 
 \paragraph{FAUST$^2$}
 The tool \textit{Formal Abstractions of Uncountable-STate STochastic
-processes} (FAUST$^2$) ~\cite{soudjani2015faust} generates formal abstractions of discrete-time Markov processes (dtMP) defined over continuous state spaces. The dtMP model is abstracted into a finite-state Markov chain or a Markov decision process. The abstract model is formally put in relationship with the concrete dtMP via a user-defined maximum threshold on the approximation error introduced by the abstraction procedure. FAUST 2 allows exporting the abstract model to well-known probabilistic model checkers,such as PRISM or MRMC. Alternatively, it can handle internally the com-
-putation of PCTL properties (e.g. safety or reach-avoid) over the abstract model, and refine the outcomes over the concrete dtMP via a quantified error that depends on the abstraction procedure and the given formula. The toolbox is available at \url{https://sourceforge.net/projects/faust2/}\\
+processes} (FAUST$^2$) ~\cite{soudjani2015faust} generates formal abstractions of discrete-time Markov processes (dtMP) defined over continuous state spaces. The dtMP model is abstracted into a finite-state Markov chain or a Markov decision process. The abstract model is formally put in relationship with the concrete dtMP via a user-defined maximum threshold on the approximation error introduced by the abstraction procedure. FAUST$^2$ allows exporting the abstract model to well-known probabilistic model checkers,such as PRISM or MRMC. Alternatively, it can handle internally the computation of PCTL properties (e.g. safety or reach-avoid) over the abstract model, and refine the outcomes over the concrete dtMP via a quantified error that depends on the abstraction procedure and the given formula. The toolbox is available at \url{https://sourceforge.net/projects/faust2/}\\
 
 \paragraph{Modest}
 
@@ -184,6 +193,10 @@ The results obtained using the individual tools are presented hereunder.
 For $\mathbf{M}_c$ and the given specification  aim at synthesising a policy maximising the safety probability $p$. This synthesis goal can be computationally hard due to the  number of continuous variables making up $\mathbf{M}_c$. 
 \todo{Say how each tool tackles this}
 
+\textcolor{blue}{Barrier certificate method is not applicable to this benchmark since it is computationally restricted to \emph{verification} of \emph{time-invariant} systems.
+We are working on extensions to synthesis, but the results are not ready yet.
+}
+
 \paragraph{Results using FAUST$^2$}
 In order to make use of the FAUST$^2$, we perform policy synthesis via abstractions and $(\varepsilon,\delta)$ simulation relations~\cite{peva}. The $(\varepsilon,\delta)$ pair providing the optimal trade off is obtained using an abstract model with 1 continuous variable and corresponds to ($0.2854,$ $ 10^{-2}$). 
 Next, we use FAUST$^2$ to perform a grid-based computation of the safety probability on the abstract model and obtain a model of size 14893 with an overall accuracy of $0.005$. 
@@ -195,9 +208,49 @@ Over this approximation we synthesise the optimal policy for the abstract model 
 
 
 \subsection{Heated Tank benchmark}
+\textcolor{blue}{Barrier certificate method is not applicable to this benchmark since it is computationally restricted to discrete-time polynomial dynamics.}
 \newpage
 
 \subsection{Lawn Mower benchmark}
+\subsubsection{Verification using Barrier Certificate}
+We use Barrier Certificates for computing bounds on reachability probability. More specifically, the approach has been recently developed for computing lower bound on probability of satisfying a \emph{safe LTL specification}. Thus, it can be used for finding upper bounds on reachability properties.
+Computationally, the approach is developed for discrete-time stochastic systems with polynomial dynamics and uses sum-of-squares optimization techniques for finding such bounds.
+
+\noindent
+\textbf{Transformation to discrete-time polynomial dynamics.}
+The dynamics of the lawn mower is not polynomial. We employ a nonlinear transformation of the states to get polynomial vector fields with polynomial constraints.
+%
+%To make dynamics compatible for computation of barrier certificates using SOS solvers
+We do coordinate transform as
+$$[y_1,y_2 y_3,y_4,y_5,y_6]=[x_2,\tan\Big(  \frac{2(x_2-bx_1)}{(V_r+V_l)}\Big ),x_3,x_4,x_5,x_6].$$
+%
+%The controller \eqref{eq:controller} in the new coordinates can be simplified to
+%We consider that the mower is driven by switched controller given by
+%$$V_l=V_b+V_d \text{ sgn}(\sin(y_5)(x_d-y_3)-\cos(y_5)(y_d-y_4)),$$ $$V_r=V_b-V_d \text{ sgn}(\sin(y_5)(x_d-y_3)-\cos(y_5)(y_d-y_4)).$$
+%
+The discrete-time closed-loop dynamics are given as 
+\begin{align*}
+y_1(k+1) &=y_1(k)+T_s\left(\frac{1}{I_{zz}}(A_{fy} z_4(k) a+2C_{\gamma} y_2(k)*b)\right),\\
+y_2(k+1) &=y_2(k)+T_s\left(\frac{2(1+y_2(k)^2)}{V_r(k)+V_l(k)}\Big(\frac{1}{M}(A_{fy}z_4(k)-2C_{\gamma}y_2(k))\right.\\
+&\hspace{3cm}\left.-\frac{V_r(k)+V_l(k)}{2}y_1(k)-\frac{b}{I_{zz}}(A_{fy} z_4(k) a+2C_{\gamma} y_2(k)b)\Big)\right),\\
+y_3(k+1) &=y_3(k)+T_s\left(\frac{V_r(k)+V_l(k)}{2}z_2(k)\right),\\
+y_4(k+1) &=y_4(k)+T_s\left(\frac{V_r(k)+V_l(k)}{2}z_1(k)\right),\\
+y_5(k+1) &=y_5(k)+T_s\left(\frac{V_r(k)-V_l(k)}{2D}+y_1(k)\right)+w_1(k),\\
+y_6(k+1) &=y_6(k)+T_s\left(-\frac{V_r(k)+V_l(k)}{2d}z_4(k)-\frac{(V_r(k)-V_l(k))(d+\sqrt{D^2+(a+b)^2} z_3(k))}{2Dd}\right)+w_2(k),
+\end{align*}
+where $z_1=\sin(y_5)$, $z_2=\cos(y_5)$, $z_3=\sin(y_6)$, $z_4=\cos(y_6)$, and $T_s$ is a sampling time.
+The controller \eqref{eq:controller} in the new coordinates can be simplified to
+%Based on the controller mentioned above, we get
+two modes of operation depending on location in state space as
+%and are obtained by using
+\begin{equation*}
+\begin{cases}
+V_l=V_b-V_d, V_r=V_b+V_d , & \text{if }z_1(x_d-y_3)-z_2(y_d-y_4)<0\\
+V_l=V_b+V_d, V_r=V_b-V_d , & \text{if }z_1(x_d-y_3)-z_2(y_d-y_4)>0.
+\end{cases}
+\end{equation*}
+
+The lower bound $\alpha = 0.8852$ is obtained using YALMIP and SeDuMi for initial states starting from $X_0$ with the help of barrier certificate of order 2.
 \newpage
 
 \subsection{Mars Rover benchmark}
@@ -217,6 +270,41 @@ This report presents the results on a first friendly competition for the formal 
 %------------------------------------------------------------------------------
 \section{Acknowledgments}
 \label{sec:acks}
+
+This work is partially supported by the Alan Turing Institute, UK; Malta's ENDEAVOUR Scholarships Scheme; and the NWO SEQUOIA project.
+
+%------------------------------------------------------------------------------
+\appendix
+\section{Specification of Used Machines} \label{sec:machines}
+
+\subsection{M$_{\text{Barrier Certificates}}$} \label{sec:machine:bc}
+\begin{itemize}
+	\item Processor:  
+    \item Memory: 
+    \item Average CPU Mark on \url{www.cpubenchmark.net}: 
+\end{itemize}
+
+\subsection{M$_{\text{FAUST$^2$}}$} \label{sec:machine:faust2}
+\begin{itemize}
+ \item Processor: Intel Core i7-8550U CPU @ 1.80GHz $\times$ 8
+ \item Memory: 8 GB
+ \item Average CPU Mark on \url{www.cpubenchmark.net}: 8337
+\end{itemize}
+
+\subsection{M$_{\text{Modest}}$} \label{sec:machine:Modest}
+\begin{itemize}
+	\item Processor:  
+    \item Memory: 
+    \item Average CPU Mark on \url{www.cpubenchmark.net}: 
+\end{itemize}
+
+\subsection{M$_{\text{SReachTools}}$} \label{sec:machine:SReachTools}
+\begin{itemize}
+ \item Processor: 
+ \item Average CPU Mark on \url{www.cpubenchmark.net}: 
+\end{itemize}
+
+\todo{Please add own specs}
 
 \bibliographystyle{plain}
 \bibliography{bib/Cauchibib.bib}

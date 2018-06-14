@@ -1,1 +1,98 @@
 \subsection{Mars Rover Benchmark}
+
+We introduce the problem of planetary exploration with a two-agent
+team composed of a Mars rover and a Mars helicopter, tasked to collect a set of
+samples from the Mars surface.
+Due to the high cost and risk associated with these missions, it is critical
+to have strong correctness and performance guarantees on the robots' behaviors.
+To aid this objective, we give a mission specification framework and
+formally encode complex mission specifications used for real Mars rover operation.
+The logic of choice is Distribution Temporal Logic (DTL) \cite{JonesDTL2013} as it captures temporal and uncertainty constraints
+ranging from science campaign (e.g., getting science results from certain regions)
+to operational constraints such as maintaining certain accuracy over the vehicles' state
+and the environment, inter-agent distance, energy level, etc.
+
+
+For a first and more accessible case study, we consider a simplified version of the full specification set.
+Additionally, the rover is assumed to have stochastic motion and perception, and is tasked
+with collecting samples from a partially-known deterministic environment.
+The helicopter provides support in terms of exploring the environment on-demand.
+Exploration is necessary if insufficient knowledge is available to synthesize a control policy with sufficient success probability.
+
+	\subsubsection{General problem}
+	\label{sec:POMDP}
+	In this section, we define a language for planning under uncertainty in partially-observable environments using formal methods. We will start by reviewing partially-observable systems and the POMDP problem. Then we will go over the belief-based temporal logic for mission planning.
+	
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\paragraph{POMDP.}
+	Let us denote the system state, action, and observation at the $k$-th time-step by $x_k, u_k, z_k$, respectively. Let
+	\begin{align}
+	x_{k+1} &= f(x_k,u_k,w_k) \label{eq:dynamics} \\
+	z_k &= h(x_k,v_k) \label{eq:observations}
+	\end{align}
+	denote the system dynamics and measurement models, where $w_k\sim p_w(\cdot|x_k)$ and $v_k\sim p_v(\cdot|x_k)$ denote the state-dependent process and observation noise. Due to the observation noise, the best one can infer about the system state is a probability distribution over all possible states, referred to as \emph{belief} $b_k=p(x_k|z_{0:k})$. The belief space (i.e., the set of all beliefs) is denoted by $\mathbb{B}$. Belief is typically evolved using a recursive filter denoted by $\tau$ as
+	\begin{equation}
+	\label{eq:filter}
+	b_{k+1}=\tau(b_k,u_k,z_{k+1}).
+	\end{equation}
+   As is common, one can generally assume that the belief space is a Polish space\footnote{With Euclidean spaces as a typical example, a Polish space is a separable and completely metrizable topological space.} and that the recursive filter is a Borel measurable mapping.
+
+
+
+   The control synthesis problem for the POMDP with DTL specifications can be formulated as follows:
+
+\paragraph{Mars-rover problem}
+    Let $\phi$ be a given DTL formula and let the robot
+    evolve according to dynamics~\eqref{eq:dynamics},
+    with observation dynamics~\eqref{eq:observations},
+    and using a Kalman filter defined by~\eqref{eq:filter}.
+    Find a policy $\mu^*$ such that 
+    
+    \begin{equation}
+    \label{eq:mpp}
+    \begin{aligned}
+    &\mu^* = \underset{\mu \in \mathbb{M}}{\arg \max}Pr[\mathbf{b} \models \phi] \\
+    &\text{subject to~\eqref{eq:dynamics},~\eqref{eq:observations},~\eqref{eq:filter}.}
+    \end{aligned}
+    \end{equation}
+    
+    
+    The set of requirements below specify a science campaign.
+	\begin{enumerate}
+      \item \textit{Rover must visit any two of the science targets of type A and one of the science targets of type B}. These areas are shown in purple and blue, respectively, in Fig. \ref{fig:Scenario}. They represent areas for potentially high-science-value rock/soil samples that need to be collected.
+      \item \textit{Rover must maintain the variance of its state below $\Sigma_{max}$}. This specification is to maintain accuracy along the mission and reduce the risk of unexpected events.
+      \item \textit{Rover routes must avoid hazards}. Hazard areas include large rocks, deep sands, steep slopes, and are given as labeled regions on the map as part of the science campaign.
+      \item \textit{Rover must follow speed constraints}.
+    %   Fig.~\ref{fig:SpeedConstriants} encodes the speed constraints.
+      Rover's maximum speed is a function of cumulative fractional area of rocks and the terrain slope, see Fig.~\ref{fig:SpeedConstriants}.
+      \item \textit{Helicopter and Rover must satisfy battery and power constraints}. In particular, Mars helicopter can only fly for 2-3 minutes per day. Thus, the remaining battery level plays an important role in shaping the mission.
+      \item \textit{Mars helicopter must avoid landing near hazards}. These hazards include large rocks, deep sands, steep slopes, etc.
+      \item \textit{Helicopter must maintain a minimum distance $d_{min}$ and a maximum distance $d_{max}$ from the rover}. The purpose of this specification is to protect the main asset of the mission: the rover, which carries all important science instruments. The helicopter should not pose any risk for the rover in case of helicopter failure but should also maintain communication range.
+    \end{enumerate}
+
+
+ 
+ \subsubsection{Simple problem}
+ 
+For simplicity, we restrict our attention to the rover and assume that the map is deterministic and the helicopter can fly to the desired location and generate a labelled map of the area requested by the rover. 
+However, there can be a discrepancy between the labels in the map and the environment,
+which the rover will encounter only during execution.
+The campaign is defined using the following DTL specification:
+
+\begin{equation}
+    \bigwedge_{X \in \{A,B \}}  \left( \xi_{keepout} {\ \mathcal{U}\ } \xi_X \right).
+\end{equation}
+
+%\begin{equation}
+%    \bigwedge_{X \in \{A,B \}}   \xi_{keepout} \Until \xi_X .
+% \end{equation}
+The dynamics of the rover are represented by a unicycle model
+\begin{equation}
+    \begin{bmatrix}
+        x(t+1) \\
+        y(t+1) \\
+        \varphi(t+1)
+    \end{bmatrix} = \begin{bmatrix}x(t) + v \cos(\varphi(t)) \delta{t}\\ y(t) + v \sin(\varphi(t)) \delta{t}\\ \varphi(t) + \omega \delta{t} \end{bmatrix} + w,
+\end{equation}
+where $v$ (velocity) and $\omega$ (angular velocity) are the inputs and $w \sim \mathcal N(0, Q)$ is Gaussian process noise. 
+\todo{Mars rover benchmark: partially added, DTL should be added. More details on case study are needed.}
